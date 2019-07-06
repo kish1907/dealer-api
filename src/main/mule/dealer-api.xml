@@ -36,7 +36,7 @@ error.description  default 'Internal Server Error'
 				<error-handler-plugin:on-error doc:name="Process Error" doc:id="4e7ffa2e-402e-4fad-bfcc-e1c5957b4908" correlationId="#[attributes.headers.correlationId]"
 					errorTypes="#[vars.errorType]" errorCodes="500" errorMessages="#[vars.errorDescription]">
 				</error-handler-plugin:on-error>
-				<set-variable value="#[attributes.httpStatus]" doc:name="Set Variable" doc:id="febd82d3-2cf6-4b8c-9e28-bac2e4f64f84" variableName="httpStatus" />
+				<set-variable value="#[attributes.httpStatus]" doc:name="Set httpStatus" doc:id="febd82d3-2cf6-4b8c-9e28-bac2e4f64f84" variableName="httpStatus" />
 			</on-error-propagate>
 		</error-handler>
 	</flow>
