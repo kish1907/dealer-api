@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mule xmlns:error-handler-plugin="http://www.mulesoft.org/schema/mule/error-handler-plugin"
-	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+<mule xmlns:error-handler-plugin="http://www.mulesoft.org/schema/mule/error-handler-plugin" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
 	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
 http://www.mulesoft.org/schema/mule/error-handler-plugin http://www.mulesoft.org/schema/mule/error-handler-plugin/current/mule-error-handler-plugin.xsd">
 	<http:listener-config name="dealer-api-httpListenerConfig">
-		<http:listener-connection host="0.0.0.0"
-			port="8081" />
+		<http:listener-connection host="0.0.0.0" port="8081" />
 	</http:listener-config>
-	<apikit:config name="dealer-api-config" raml="dealer-api.raml"
-		outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+	<apikit:config name="dealer-api-config" raml="dealer-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
 
 	<flow name="dealer-api-main">
-		<http:listener config-ref="dealer-api-httpListenerConfig"
-			path="/api/*">
+		<http:listener config-ref="dealer-api-httpListenerConfig" path="/api/*">
 			<http:response statusCode="#[vars.httpStatus default 200]">
 			</http:response>
 			<http:error-response statusCode="#[vars.httpStatus default 500]">
@@ -23,30 +19,31 @@ http://www.mulesoft.org/schema/mule/error-handler-plugin http://www.mulesoft.org
 			</http:error-response>
 		</http:listener>
 		<apikit:router config-ref="dealer-api-config" />
-	<error-handler>
-	<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="510ccf07-8d7d-459d-bec6-f7a2673aa29b" >
-<ee:transform doc:name="Set Custom Error Vars" doc:id="296f68be-0793-41ac-9601-f9d8a251e1a8">
-    <ee:message>
-    </ee:message>
-    <ee:variables >
-        <ee:set-variable variableName="errorType" ><![CDATA[(
+		<error-handler>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="510ccf07-8d7d-459d-bec6-f7a2673aa29b">
+				<ee:transform doc:name="Set Custom Error Vars" doc:id="296f68be-0793-41ac-9601-f9d8a251e1a8">
+					<ee:message>
+					</ee:message>
+					<ee:variables>
+						<ee:set-variable variableName="errorType"><![CDATA[(
 (error.errorType.namespace default '') ++ ':' ++ (error.errorType.identifier default '')
 )  replace "," with("-")]]></ee:set-variable>
-        <ee:set-variable variableName="errorDescription" ><![CDATA[(
+						<ee:set-variable variableName="errorDescription"><![CDATA[(
 error.description  default 'Internal Server Error'
 )  replace "," with("-")]]></ee:set-variable>
-    </ee:variables>
-</ee:transform>
-<error-handler-plugin:on-error doc:name="Process Error" doc:id="4e7ffa2e-402e-4fad-bfcc-e1c5957b4908" correlationId="#[attributes.headers.correlationId]" errorTypes="#[vars.errorType]" errorCodes="500" errorMessages="#[vars.errorDescription]">
-</error-handler-plugin:on-error>
-<set-variable value="#[attributes.httpStatus]" doc:name="Set Variable" doc:id="febd82d3-2cf6-4b8c-9e28-bac2e4f64f84" variableName="httpStatus"/>
-</on-error-propagate>
-	</error-handler>
+					</ee:variables>
+				</ee:transform>
+				<error-handler-plugin:on-error doc:name="Process Error" doc:id="4e7ffa2e-402e-4fad-bfcc-e1c5957b4908" correlationId="#[attributes.headers.correlationId]"
+					errorTypes="#[vars.errorType]" errorCodes="500" errorMessages="#[vars.errorDescription]">
+				</error-handler-plugin:on-error>
+				<set-variable value="#[attributes.httpStatus]" doc:name="Set Variable" doc:id="febd82d3-2cf6-4b8c-9e28-bac2e4f64f84" variableName="httpStatus" />
+			</on-error-propagate>
+		</error-handler>
 	</flow>
-	<flow name="dealer-apiFlow" doc:id="89886546-6da1-4729-9526-58092d530c73" >
-		<ee:transform doc:name="Transform Message" doc:id="7bf2c830-9e83-4ca9-96fc-1ecb106e046a" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
+	<flow name="dealer-apiFlow" doc:id="89886546-6da1-4729-9526-58092d530c73">
+		<ee:transform doc:name="Transform Message" doc:id="7bf2c830-9e83-4ca9-96fc-1ecb106e046a">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
 output application/java
 ---
 {
@@ -55,10 +52,10 @@ output application/java
 		</ee:transform>
 	</flow>
 	<flow name="get:\(productLine)\searchbycode\(codes):dealer-api-config">
-		<ee:transform doc:name="Extract URI Params" doc:id="c295ed4f-58da-48ff-b464-7cf6addf97ff" >
-			<ee:variables >
-				<ee:set-variable variableName="productLine" ><![CDATA[attributes.uriParams.productLine]]></ee:set-variable>
-				<ee:set-variable variableName="codes" ><![CDATA[attributes.uriParams.codes]]></ee:set-variable>
+		<ee:transform doc:name="Extract URI Params" doc:id="c295ed4f-58da-48ff-b464-7cf6addf97ff">
+			<ee:variables>
+				<ee:set-variable variableName="productLine"><![CDATA[attributes.uriParams.productLine]]></ee:set-variable>
+				<ee:set-variable variableName="codes"><![CDATA[attributes.uriParams.codes]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
 		<flow-ref doc:name="getDealerFlow" doc:id="f589a70f-b71b-4e77-8cd2-eff1828f4a6f" name="getDealerFlow" />
