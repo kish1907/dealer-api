@@ -25,7 +25,7 @@ http://www.mulesoft.org/schema/mule/error-handler-plugin http://www.mulesoft.org
 		<apikit:router config-ref="dealer-api-config" />
 	<error-handler>
 	<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="510ccf07-8d7d-459d-bec6-f7a2673aa29b" >
-<ee:transform doc:name="Custom Error Vars" doc:id="296f68be-0793-41ac-9601-f9d8a251e1a8">
+<ee:transform doc:name="Set Custom Error Vars" doc:id="296f68be-0793-41ac-9601-f9d8a251e1a8">
     <ee:message>
     </ee:message>
     <ee:variables >
