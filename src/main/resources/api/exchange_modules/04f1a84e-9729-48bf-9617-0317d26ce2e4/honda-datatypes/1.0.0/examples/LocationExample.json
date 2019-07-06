@@ -1,0 +1,18 @@
+{
+    "Address": "30 Van Kirk Drive",
+    "City": {
+        "Name": "Brampton"
+    },
+    "Province": {
+        "Name": "Ontario",
+        "Abbreviation": "ON"
+    },
+    "PostalCode": {
+        "Value": "L7A2Y4"
+    },
+    "Coordinate": {
+        "Latitude": 43.698459625244141,
+        "Longitude": -79.796112060546875
+    },
+    "Direction": ""
+}

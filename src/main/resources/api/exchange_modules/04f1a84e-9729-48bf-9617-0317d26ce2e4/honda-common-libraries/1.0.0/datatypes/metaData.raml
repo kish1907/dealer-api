@@ -1,0 +1,20 @@
+#%RAML 1.0 DataType
+type: object
+displayName: metaData
+properties: 
+  timeTaken:
+    type: number
+    format: double
+    required: false
+  apiVersion:
+    type: string
+    required: false 
+  serviceName:
+    type: string
+    required: false
+  CorrelationId:
+    type: string
+    required: false
+  responseTime:
+    type: datetime-only
+    required: false

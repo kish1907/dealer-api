@@ -1,0 +1,32 @@
+#%RAML 1.0
+title: Dealer API
+description: This API returns the set the dealers with the specified dealer codes in the context of the specified product-line.
+version: 1.0
+
+baseUri: http://localhost:8081/api/honda/dealer/v{version}
+
+types:
+  Dealer: !include exchange_modules/04f1a84e-9729-48bf-9617-0317d26ce2e4/honda-datatypes/1.0.0/datatypes/Dealer.raml
+
+uses:
+  Traits: exchange_modules/04f1a84e-9729-48bf-9617-0317d26ce2e4/honda-common-libraries/1.0.0/honda-common-libraries.raml
+
+/{productLine}/searchbycode/{codes}:
+  uriParameters:
+    productLine:
+      type: string
+      description: string that can have a value from the following Codes
+      enum: [A, E, H, M, P, R, S, V]
+    codes:
+      type: string
+      description: string value of semicolon-delimited integers. Each integer value represents the Dealer Code of a dealer
+      example: 6710;6711;6713
+  get:
+    is:
+      - Traits.CorrelationId
+      - Traits.standard-error-response
+    responses:
+      200:
+        body:
+          application/json:
+            Dealer []

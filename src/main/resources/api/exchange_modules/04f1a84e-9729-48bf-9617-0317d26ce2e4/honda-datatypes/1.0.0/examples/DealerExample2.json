@@ -1,0 +1,55 @@
+{
+    "IsExpress": true,
+    "Id": 635,
+    "Code": 6711,
+    "Name": "Formula Honda",
+    "Caliber": {
+        "Code": 2,
+        "Name": "Single"
+    },
+    "Location": {
+        "Address": "2240 Markham Road",
+        "City": {
+            "Name": "Toronto"
+        },
+        "Province": {
+            "Name": "Ontario",
+            "Abbreviation": "ON"
+        },
+        "PostalCode": {
+            "Value": "M1B2W4"
+        },
+        "Coordinate": {
+            "Latitude": 43.807540893554688,
+            "Longitude": -79.243927001953125
+        },
+        "Direction": "401 to Markham Road, North on Markham Road, just South of Finch, North of Sheppard. Dealership is on the left."
+    },
+    "ContactInformation": {
+        "Phones": [
+            {
+                "Number": "8669804103",
+                "Extension": "",
+                "IsTollFree": false,
+                "Label": ""
+            }
+        ],
+        "Faxes": [
+            {
+                "Number": "4167549465",
+                "Extension": "",
+                "IsTollFree": false,
+                "Label": ""
+            }
+        ],
+        "Emails": [
+            {
+                "Value": "info@formulahonda.ca",
+                "Label": ""
+            }
+        ],
+        "Website": "www.formulahonda.com"
+    },
+    "ExportKey": "formula_honda",
+    "ImageUrl": "http://integration.preview.images.honda.ca/dealer/h_dealer_default_image.png"
+}

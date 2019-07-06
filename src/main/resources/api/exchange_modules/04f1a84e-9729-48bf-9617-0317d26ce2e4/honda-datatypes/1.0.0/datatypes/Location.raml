@@ -1,0 +1,24 @@
+#%RAML 1.0 DataType
+type: object
+properties:
+  Address: string
+  City:
+    type: object
+    properties:
+      Name: string
+  Province:
+    type: object
+    properties:
+      Name: string  
+      Abbreviation: string
+  PostalCode:
+    type: object
+    properties:
+      Value: string
+  Coordinate:
+    type: object
+    properties:
+      Latitude: number
+      Longitude: number  
+  Direction: string
+example: !include ../examples/LocationExample.json

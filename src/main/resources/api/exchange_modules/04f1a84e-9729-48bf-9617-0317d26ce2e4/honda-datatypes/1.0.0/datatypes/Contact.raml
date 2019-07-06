@@ -1,0 +1,14 @@
+#%RAML 1.0 DataType
+type: object
+properties:
+  Phones:
+    type: array
+    items: !include Phone.raml
+  Faxes:
+    type: array
+    items: !include Fax.raml
+  Emails:
+    type: array
+    items: !include Email.raml
+  Website: string
+example: !include ../examples/ContactExample.json

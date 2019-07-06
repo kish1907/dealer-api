@@ -1,0 +1,21 @@
+core:
+  error:
+    api:
+      port: "8081"
+      hostname: "0.0.0.0"
+      
+api:
+  processName: "dealer-api"
+  loggerCategory: "honda.dealerApi.process"
+  name: "dealer-api"
+  version: "1.0"
+  
+#Default Error E-mail properties
+defaultResolverGroup: "Honda Integration Services"
+defaultEmailTo: "kishore@mulesoft.com"
+defaultEmailCc: "kishore@salesforce.com"
+defaultSeverity: "3"
+defaultFail: "NO"
+error:
+  clientId: "6e02ff0541664a36a880"
+  clientSecret: "40c9624E6A62451aB3cB"

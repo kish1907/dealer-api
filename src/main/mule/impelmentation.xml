@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+	<sub-flow name="getDealerFlow" doc:id="8e3f33f0-2238-40e8-b1e7-98e62eb905f8" >
+		<logger level="INFO" doc:name="Logger" doc:id="b983230e-8a34-40e7-b12c-7602b3e01ae6" message="Trigger received" category="${api.loggerCategory}" />
+		<set-variable value="#[%dw 2.0
+output application/java
+---
+{
+	processName: p('api.processName'),
+	sourceSystem: 'A',
+	targetSystem: 'B',
+	exceptionType: 'INFRA',
+	emailSubject: 'Exception while processing delaer api request',
+	defaultResolverGroup: p('defaultResolverGroup'),
+	defaultEmailCc: p('defaultEmailCc'),
+	defaultEmailTo: p('defaultEmailTo'),
+	defaultSeverity: p('defaultSeverity'),
+	defaultFail: p('defaultFail'),
+	intErrCode: 'ERROR001',
+}]" doc:name="Initialize Error" doc:id="3a999893-2b9a-45b0-ba50-21a7592a400d" variableName="Error" />
+		<validation:is-number numberType="INTEGER" doc:name="Is number" doc:id="872043aa-7410-4621-94ce-d31989b2eeea" value="#[vars.codes]"/>
+		<ee:transform doc:name="Default Response" doc:id="5e2cbe15-5b74-4286-9784-29ae1b1bf40c">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+[
+	{
+    "IsExpress": true,
+    "Id": 634,
+    "Code": 6710,
+    "Name": "Classic Honda",
+    "Caliber": {
+        "Code": 2,
+        "Name": "Single"
+    },
+    "Location": {
+        "Address": "30 Van Kirk Drive",
+        "City": {
+            "Name": "Brampton"
+        },
+        "Province": {
+            "Name": "Ontario",
+            "Abbreviation": "ON"
+        },
+        "PostalCode": {
+            "Value": "L7A2Y4"
+        },
+        "Coordinate": {
+            "Latitude": 43.698459625244141,
+            "Longitude": -79.796112060546875
+        },
+        "Direction": ""
+    },
+    "ContactInformation": {
+        "Phones": [
+            {
+                "Number": "9054541434",
+                "Extension": "",
+                "IsTollFree": false,
+                "Label": ""
+            }
+        ],
+        "Faxes": [
+            {
+                "Number": "9054545013",
+                "Extension": "",
+                "IsTollFree": false,
+                "Label": ""
+            }
+        ],
+        "Emails": [
+            {
+                "Value": "sales@classichonda.ca",
+                "Label": ""
+            }
+        ],
+        "Website": "www.classichonda.ca"
+    },
+    "ExportKey": "classic_honda",
+    "ImageUrl": "http://integration.preview.images.honda.ca/dealer/h_dealer_default_image.png"
+}
+]]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>

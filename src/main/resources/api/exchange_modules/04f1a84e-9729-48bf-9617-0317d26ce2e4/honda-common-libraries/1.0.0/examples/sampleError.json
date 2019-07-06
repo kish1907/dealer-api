@@ -1,0 +1,16 @@
+{
+  "responseMetaData": {
+    "timeTaken": 460,
+    "apiVersion": "1.0",
+    "serviceName": "ABC",
+    "CorrelationId": "g7w633gxuhsu",
+    "responseTime": "2019-07-04T21:00:00"
+  },
+  "error": [
+    {
+      "code": "AC",
+      "message": "jahsa",
+      "createdDate": "2019-07-04T21:00:00"
+    }
+  ]
+}

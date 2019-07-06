@@ -1,0 +1,102 @@
+#%RAML 1.0 Library
+usage: Use the following traits for the APIs
+
+traits:
+  cacheable: !include traitCacheable.raml
+  pagination:
+    queryParameters:
+      startPage:
+        description: Starting page number, first page is 1
+        type: integer
+        example: 1
+      pageSize:
+        description: Maximum number of entries per page
+        type: integer
+        example: 10
+  content-type-required:
+    headers:
+      Content-Type:
+        type: string
+        example: application/json
+  content-length-required:
+    headers:
+      Content-Length:
+        type: integer
+        example: 20
+  last-modified-required:
+    headers:
+      Last-Modified:
+        type: datetime
+        example: Sun, 28 Feb 2016 16:41:41 GMT
+        format: rfc2616
+  content-language-required:
+    headers:
+      Content-Language:
+        type: string
+        example: en-CA
+  content-encoding-required:
+    headers:
+      Content-Encoding:
+        type: string
+        example: gzip
+  accept-required:
+    headers:
+      accept:
+        description: Specify the media type of the response to be returned
+        type: string
+        example: application/json
+  CorrelationId:
+    headers: 
+      CorrelationId:
+        type: string
+        example: e733ab0a-6da5-11e8-adc0-fa7ae01bbebc
+  client-credentials-required:
+    headers:
+      client_id:
+        type: string
+        example: 7b404180fbb84b099179a4126a9576ff
+      client_secret:
+        type: string
+        example: e241f4aa3eca4b2a8FA67A2FEF5754F8
+  standard-error-response: !include errorResponse.raml
+  protocol-required:
+    protocols: HTTPS
+securitySchemes:
+  client-credentials:
+    type: x-client-credentials
+    description: Use application client_id and secret assigned by API administrator.
+  oauth_2_0:
+    description: |
+      This API supports OAuth 2.0 for authenticating all API requests.
+    type: OAuth 2.0
+    describedBy:
+      headers:
+        Authorization:
+          description: |
+              Used to send a valid OAuth 2 access token. Do not use
+              with the "access_token" query string parameter.
+          type: string
+      queryParameters:
+        access_token:
+          description: |
+              Used to send a valid OAuth 2 access token. Do not use with
+              the "Authorization" header.
+          type: string
+      responses:
+        401:
+          description: |
+              Bad or expired token. This can happen if the access token
+              has been revoked or expired. To fix, re-authenticate
+              the user.
+        403:
+          description: |
+              Bad OAuth request (wrong consumer key, bad nonce, expired
+              timestamp...). Unfortunately, re-authenticating the user won't help here.
+    settings:
+      authorizationUri: https://honda.ca/oauth2/ausfqznk7pxHxADGK0h7/v1/authorize
+      accessTokenUri: https://honda.ca/oauth2/ausfqznk7pxHxADGK0h7/v1/token
+      authorizationGrants: [ client_credentials ]
+  basic-authentication:
+    type: Basic Authentication
+    description: Secured by Basic Authentication
+
